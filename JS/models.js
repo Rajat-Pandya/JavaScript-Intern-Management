@@ -39,6 +39,8 @@ export class Intern {
         .some((field) => field.toLowerCase().includes(q));
     }
 
-    
+    static fromJSON(obj) {
+        return new Intern(obj);
+    }
 
 }

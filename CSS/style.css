@@ -1,0 +1,32 @@
+body { font-family: system-ui, sans-serif; margin: 0; background: #f4f6f8; color: #1f2933; }
+.navbar { display: flex; gap: 1rem; padding: 0.8rem 1.5rem; background: #243b53; }
+.navbar a { color: #fff; text-decoration: none; opacity: 0.8; }
+.navbar a.active { opacity: 1; font-weight: 600; }
+.container { max-width: 1100px; margin: 1.5rem auto; padding: 0 1rem; }
+.card { background: #fff; border-radius: 8px; padding: 1.2rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+label { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.9rem; font-weight: 600; }
+input, select { padding: 0.5rem; border: 1px solid #bcccdc; border-radius: 4px; font: inherit; }
+input.invalid, select.invalid { border-color: #d64545; }
+.error { color: #d64545; font-size: 0.8rem; font-weight: 400; min-height: 1em; }
+
+.btn { padding: 0.5rem 1rem; border: 1px solid #bcccdc; border-radius: 4px; background: #fff; cursor: pointer; }
+.btn-primary { background: #2680c2; border-color: #2680c2; color: #fff; }
+.btn-danger { color: #d64545; border-color: #d64545; }
+.form-actions { margin-top: 1rem; display: flex; gap: 0.5rem; }
+
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 0.6rem; text-align: left; border-bottom: 1px solid #e4e7eb; white-space: nowrap; }
+.empty { text-align: center; color: #829ab1; padding: 1.5rem; }
+
+.badge { padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.8rem; }
+.status-active { background: #c6f7e2; color: #05603a; }
+.status-inactive { background: #ffe3e3; color: #8a1c1c; }
+.status-completed { background: #d6e4ff; color: #1c3d8a; }
+
+#toast-container { position: fixed; top: 1rem; right: 1rem; display: flex; flex-direction: column; gap: 0.5rem; z-index: 1000; }
+.toast { padding: 0.7rem 1rem; border-radius: 6px; color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.2); }
+.toast-success { background: #27ab83; }
+.toast-error { background: #d64545; }

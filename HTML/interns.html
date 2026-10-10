@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interns | Intern Management</title>
+    <link rel="stylesheet" href="/CSS/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="interns.html" class="active">Interns</a>
+        <a href="attendance.html">Attendance</a>
+        <a href="assessment.html">Assessment</a>
+        <a href="tasks.html">Tasks</a>
+    </nav>
+
+    <main class="container">
+        <section class="card">
+            <h2 id="form-title">Add Intern</h2>
+
+            <form id="intern-form" novalidate>
+                <div class="form-grid">
+                    <label>Intern ID
+                        <input name="internId" type="text" placeholder="INT001">
+                        <span class="error" data-error-for="internId"></span>
+                    </label>
+
+                    <label>Name
+                        <input name="name" type="text">
+                        <span class="error" data-error-for="name"></span>
+                    </label>
+
+                    <label>Email
+                        <input name="email" type="email">
+                        <span class="error" data-error-for="email"></span>
+                    </label>
+
+                    <label>Mobile
+                        <input name="mobile" type="tel" maxlength="10">
+                        <span class="error" data-error-for="mobile"></span>
+                    </label>
+
+                    <label>Gender
+                        <select name="gender">
+                            <option value="">-- Select --</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Other</option>
+                        </select>
+                        <span class="error" data-error-for="gender"></span>
+                    </label>
+
+                    <label>City
+                        <input name="city" type="text">
+                        <span class="error" data-error-for="city"></span>
+                    </label>
+
+                    <label>Specialization
+                        <select name="specialization" id="specialization"></select>
+                        <span class="error" data-error-for="specialization"></span>
+                    </label>
+
+                    <label>Joining Date
+                        <input name="joiningDate" type="date">
+                        <span class="error" data-error-for="joiningDate"></span>
+                    </label>
+
+                    <label>Status
+                        <select name="status" id="status"></select>
+                        <span class="error" data-error-for="status"></span>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" id="submit-btn" class="btn btn-primary">Add Intern</button>
+                    <button type="button" id="cancel-btn" class="btn" hidden>Cancel Edit</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>All Interns</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
+                            <th>City</th>
+                            <th>Specialization</th>
+                            <th>Joined</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="intern-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Read-only details popup for the "View" action -->
+    <dialog id="view-dialog">
+        <div id="view-content"></div>
+        <form method="dialog"><button class="btn">Close</button></form>
+    </dialog>
+
+    <div id="toast-container"></div>
+
+    <script type="module" src="/JS/interns.js"></script>
+</body>
+
+</html>
