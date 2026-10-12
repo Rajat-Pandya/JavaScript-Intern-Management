@@ -1,4 +1,5 @@
 import {todayISO} from './utils.js';
+import { ATTENDANCE_STATUSES, SUBJECTS } from './models.js';
 
 const ID_REGEX = /^[A-Za-z0-9-]{3,15}$/;          
 const NAME_REGEX = /^[A-Za-z][A-Za-z .'-]{1,49}$/; 
@@ -47,6 +48,29 @@ export function validateInternId(data, existingInterns = [], currentId = null) {
     return { isValid: Object.keys(errors).length === 0, errors };
 }
 
+export function validateAttendance(data, interns = []) {
+    const errors = {};
+    const { internId, date, status } = data;
+    const intern = interns.find((i) => i.internId === internId);
+
+    if (!internId) errors.internId = 'Please select an intern.';
+    else if (!intern) errors.internId = 'Selected intern does not exist.';
+
+    if (!date) {
+        errors.date = 'Date is required.';
+    } else if (Number.isNaN(new Date(date).getTime())) {
+        errors.date = 'Enter a valid date.';
+    } else if (date > todayISO()) {
+        errors.date = 'Attendance cannot be recorded for a future date.';
+    } else if (intern && date < intern.joiningDate) {
+        errors.date = `Date is before this intern's joining date (${intern.joiningDate}).`;
+    }
+
+    if (!status) errors.status = 'Please select an attendance status.';
+    else if (!ATTENDANCE_STATUSES.includes(status)) errors.status = 'Invalid status.';
+
+    return { isValid: Object.keys(errors).length === 0, errors };
+}
 
 export function clearErrors(form) {
     form.querySelectorAll('[data-error-for]').forEach((el) => (el.textContent = ''));
@@ -61,3 +85,52 @@ export function showErrors(form, errors) {
     inputEl?.classList.add('invalid');
     });
 }
+
+export function validateAssessment(data, interns = []){
+    const errors = [];
+    const {internId, subject, marks, totalMarks, date} = data;
+    const intern = interns.find((i) => i.internId === internId);
+
+    const isBlank = (value) => String(value ?? '').trim() === '';
+    const total = Number(totalMarks);
+    const obtained = Number(marks);
+
+    if (!internId) errors.internId = 'Please select an intern';
+    else if (!intern) errors.internId = 'Selected intern does not exist';
+
+    if (!subject) errors.subject = 'Plese select a subject';
+    else if(!SUBJECTS.includes(subject)) errors.subject = 'Invalid subject';
+
+    if (isBlank(totalMarks)){
+        errors.totalMarks = 'Total marks is required';
+    }else if (!Number.isFinite(total) || total <= 0){
+        errors.totalMarks = 'Total marks must be a number greater than 0'
+    } else if ( total > 1000){
+        errors.totalMarks = 'Total marks cannot exceed 1000';
+    }
+
+    if (isBlank(marks)) {
+        errors.marks = 'Marks are required.';
+    } else if (!Number.isFinite(obtained) || obtained < 0) {
+        errors.marks = 'Marks must be a number, 0 or more.';
+    } else if (!errors.totalMarks && obtained > total) {
+        errors.marks = `Marks cannot exceed total marks (${total}).`;
+    }
+
+    if (!date) {
+        errors.date = 'Date is required.';
+    } else if (Number.isNaN(new Date(date).getTime())) {
+        errors.date = 'Enter a valid date.';
+    } else if (date > todayISO()) {
+        errors.date = 'Assessment date cannot be in the future.';
+    } else if (intern && date < intern.joiningDate) {
+        errors.date = `Date is before this intern's joining date (${intern.joiningDate}).`;
+    }
+
+    return { isValid: Object.keys(errors).length === 0, errors };
+}
+
+
+
+
+

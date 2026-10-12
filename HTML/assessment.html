@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment | Intern Management</title>
+    <link rel="stylesheet" href="/CSS/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="interns.html">Interns</a>
+        <a href="attendance.html">Attendance</a>
+        <a href="assessment.html" class="active">Assessment</a>
+        <a href="tasks.html">Tasks</a>
+    </nav>
+
+    <main class="container">
+        <section class="card">
+            <h2>Record Assessment</h2>
+            <form id="assessment-form" novalidate>
+                <div class="form-grid">
+                    <label>Intern
+                        <select name="internId" id="assessment-intern"></select>
+                        <span class="error" data-error-for="internId"></span>
+                    </label>
+
+                    <label>Subject
+                        <select name="subject" id="assessment-subject"></select>
+                        <span class="error" data-error-for="subject"></span>
+                    </label>
+
+                    <label>Marks Obtained
+                        <input name="marks" type="number" min="0" step="0.5">
+                        <span class="error" data-error-for="marks"></span>
+                    </label>
+
+                    <label>Total Marks
+                        <input name="totalMarks" type="number" min="1" step="1" value="100">
+                        <span class="error" data-error-for="totalMarks"></span>
+                    </label>
+
+                    <label>Date
+                        <input name="date" type="date">
+                        <span class="error" data-error-for="date"></span>
+                    </label>
+                </div>
+
+                <p id="grade-preview" class="preview"></p>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save Assessment</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>Results Summary</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Assessments</th>
+                            <th>Overall %</th>
+                            <th>Grade</th>
+                            <th>Subject-wise</th>
+                        </tr>
+                    </thead>
+                    <tbody id="summary-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Assessment Records</h2>
+            <div class="toolbar">
+                <select id="record-filter" aria-label="Filter records by intern"></select>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Intern</th>
+                            <th>Subject</th>
+                            <th>Marks</th>
+                            <th>Percentage</th>
+                            <th>Grade</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="records-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <dialog id="subject-dialog">
+        <div id="subject-content"></div>
+        <form method="dialog"><button class="btn">Close</button></form>
+    </dialog>
+
+    <div id="toast-container"></div>
+    <script type="module" src="/JS/assessment.js"></script>
+</body>
+
+</html>

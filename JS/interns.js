@@ -1,12 +1,18 @@
 import { load, save, KEYS } from './storage.js';
 import { Intern, SPECIALIZATIONS, STATUSES } from './models.js';
 import { validateInternId, clearErrors, showErrors } from './validation.js';
-import { escapeHTML, formatDate, showToast } from './utils.js';
+import { escapeHTML, formatDate, showToast, debounce } from './utils.js';
+import { seedIfNeeded } from './seed.js';
 
-
-let interns = load(KEYS.INTERNS).map(Intern.fromJSON);
+let interns = [];
 let editingId = null; 
 
+const filters = {
+  query: '',
+  specialization: '',
+  status: '',
+  sortBy: 'name-asc',
+};
 
 const form = document.getElementById('intern-form');
 const tableBody = document.getElementById('intern-table-body');
@@ -15,6 +21,13 @@ const submitBtn = document.getElementById('submit-btn');
 const cancelBtn = document.getElementById('cancel-btn');
 const viewDialog = document.getElementById('view-dialog');
 const viewContent = document.getElementById('view-content');
+
+const searchInput = document.getElementById('search-input');
+const specFilter = document.getElementById('filter-specialization');
+const statusFilter = document.getElementById('filter-status');
+const sortSelect = document.getElementById('sort-select');
+const resetBtn = document.getElementById('reset-filters');
+const resultCount = document.getElementById('result-count');
 
 function persist() {
     const ok = save(KEYS.INTERNS, interns);
@@ -39,14 +52,39 @@ function resetForm() {
     cancelBtn.hidden = true;
 }
 
+const SORTERS = {
+  'name-asc': (a, b) => a.name.localeCompare(b.name),
+  'name-desc': (a, b) => b.name.localeCompare(a.name),
+  'joining-newest': (a, b) => new Date(b.joiningDate) - new Date(a.joiningDate),
+  'joining-oldest': (a, b) => new Date(a.joiningDate) - new Date(b.joiningDate),
+};
+
+function getVisibleInterns() {
+  const { query, specialization, status, sortBy } = filters;
+
+  const filtered = interns.filter(
+    (intern) =>
+      intern.matches(query) &&
+      (!specialization || intern.specialization === specialization) &&
+      (!status || intern.status === status)
+  );
+
+  return [...filtered].sort(SORTERS[sortBy] ?? SORTERS['name-asc']);
+}
+
 function renderTable() {
-  if (interns.length === 0) {
-    tableBody.innerHTML =
-      '<tr><td colspan="9" class="empty">No interns found. Add one using the form above.</td></tr>';
+  const visible = getVisibleInterns();
+  resultCount.textContent = `Showing ${visible.length} of ${interns.length} interns`;
+
+  if (visible.length === 0) {
+    const message = interns.length === 0
+      ? 'No interns yet. Add one using the form above.'
+      : 'No interns match your search or filters.';
+    tableBody.innerHTML = `<tr><td colspan="9" class="empty">${message}</td></tr>`;
     return;
   }
 
-  tableBody.innerHTML = interns
+  tableBody.innerHTML = visible
     .map(
       (intern) => `
       <tr>
@@ -147,6 +185,9 @@ function deleteIntern(id) {
     if (editingId === id) resetForm(); 
     showToast('Intern deleted.');
   }
+  const remainingAttendance = load(KEYS.ATTENDANCE).filter((r) => r.internId !== id);
+  save(KEYS.ATTENDANCE, remainingAttendance);
+  
 }
 
 tableBody.addEventListener('click', (event) => {
@@ -162,9 +203,48 @@ tableBody.addEventListener('click', (event) => {
 form.addEventListener('submit', handleSubmit);
 cancelBtn.addEventListener('click', resetForm);
 
+const applySearch = debounce((value) => {
+  filters.query = value;
+  renderTable();
+}, 300);
 
-fillSelect('specialization', SPECIALIZATIONS, '-- Select --');
-fillSelect('status', STATUSES, '-- Select --');
-form.elements.status.value = 'Active'; 
-renderTable();
+searchInput.addEventListener('input', (event) => applySearch(event.target.value));
 
+specFilter.addEventListener('change', (event) => {
+  filters.specialization = event.target.value;
+  renderTable();
+});
+
+statusFilter.addEventListener('change', (event) => {
+  filters.status = event.target.value;
+  renderTable();
+});
+
+sortSelect.addEventListener('change', (event) => {
+  filters.sortBy = event.target.value;
+  renderTable();
+});
+
+resetBtn.addEventListener('click', () => {
+  Object.assign(filters, { query: '', specialization: '', status: '', sortBy: 'name-asc' });
+  searchInput.value = '';
+  specFilter.value = '';
+  statusFilter.value = '';
+  sortSelect.value = 'name-asc';
+  renderTable();
+});
+
+async function init() {
+  await seedIfNeeded();                      
+  interns = load(KEYS.INTERNS).map(Intern.fromJSON);  
+
+  fillSelect('specialization', SPECIALIZATIONS, '-- Select --');
+  fillSelect('status', STATUSES, '-- Select --');
+  fillSelect('filter-specialization', SPECIALIZATIONS, 'All Specializations');
+  fillSelect('filter-status', STATUSES, 'All Statuses');
+  form.elements.status.value = 'Active';
+
+  renderTable();                              
+}
+
+init();

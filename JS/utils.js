@@ -39,3 +39,7 @@ export function showToast(message, type = 'info', duration = 3000) {
 
     setTimeout(() => toast.remove(), duration);
 }
+
+export function generateId(prefix = 'id') {
+    return `${prefix}_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
+}

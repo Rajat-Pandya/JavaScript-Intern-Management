@@ -30,3 +30,16 @@ th, td { padding: 0.6rem; text-align: left; border-bottom: 1px solid #e4e7eb; wh
 .toast { padding: 0.7rem 1rem; border-radius: 6px; color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.2); }
 .toast-success { background: #27ab83; }
 .toast-error { background: #d64545; }
+
+.toolbar { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 0.6rem; }
+.toolbar input[type="search"] { flex: 1 1 260px; }
+.result-count { margin: 0 0 0.8rem; color: #627d98; font-size: 0.85rem; }
+
+.cat-excellent { background: #c6f7e2; color: #05603a; }
+.cat-good { background: #d6e4ff; color: #1c3d8a; }
+.cat-warning { background: #fff3c4; color: #8d6b00; }
+.cat-critical { background: #ffe3e3; color: #8a1c1c; }
+.cat-nodata { background: #e4e7eb; color: #52606d; }
+dialog { border: none; border-radius: 8px; padding: 1.2rem; max-width: 520px; width: 90%; }
+dialog::backdrop { background: rgba(0, 0, 0, 0.4); }
+.history-list { max-height: 50vh; overflow-y: auto; }

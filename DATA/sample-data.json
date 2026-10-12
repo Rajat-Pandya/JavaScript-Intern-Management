@@ -1,0 +1,18 @@
+{
+"interns": [
+    { "internId": "INT001", "name": "Aarav Sharma", "email": "aarav.sharma@example.com", "mobile": "9876501234", "gender": "Male", "city": "Jaipur", "specialization": "Full Stack Java", "joiningDate": "2026-07-01", "status": "Active" },
+    { "internId": "INT002", "name": "Diya Patel", "email": "diya.patel@example.com", "mobile": "9825012345", "gender": "Female", "city": "Ahmedabad", "specialization": "Data Analytics", "joiningDate": "2026-07-01", "status": "Active" },
+    { "internId": "INT003", "name": "Rohan Meena", "email": "rohan.meena@example.com", "mobile": "9414023456", "gender": "Male", "city": "Udaipur", "specialization": "Testing", "joiningDate": "2026-07-08", "status": "Active" },
+    { "internId": "INT004", "name": "Ananya Iyer", "email": "ananya.iyer@example.com", "mobile": "9845034567", "gender": "Female", "city": "Bengaluru", "specialization": "Cloud Computing", "joiningDate": "2026-07-08", "status": "Active" },
+    { "internId": "INT005", "name": "Vikram Singh", "email": "vikram.singh@example.com", "mobile": "9929045678", "gender": "Male", "city": "Jodhpur", "specialization": "Full Stack Node.js", "joiningDate": "2026-07-15", "status": "Inactive" },
+    { "internId": "INT006", "name": "Priya Nair", "email": "priya.nair@example.com", "mobile": "9447056789", "gender": "Female", "city": "Pune", "specialization": "Data Engineering", "joiningDate": "2026-07-15", "status": "Active" },
+    { "internId": "INT007", "name": "Karan Verma", "email": "karan.verma@example.com", "mobile": "9893067890", "gender": "Male", "city": "Indore", "specialization": "Full Stack .NET", "joiningDate": "2026-07-22", "status": "Active" },
+    { "internId": "INT008", "name": "Sneha Joshi", "email": "sneha.joshi@example.com", "mobile": "9766078901", "gender": "Female", "city": "Mumbai", "specialization": "Data Analytics", "joiningDate": "2026-07-22", "status": "Completed" },
+    { "internId": "INT009", "name": "Aditya Rathore", "email": "aditya.rathore@example.com", "mobile": "9680089012", "gender": "Male", "city": "Kota", "specialization": "Full Stack Java", "joiningDate": "2026-08-03", "status": "Active" },
+    { "internId": "INT010", "name": "Meera Reddy", "email": "meera.reddy@example.com", "mobile": "9849090123", "gender": "Female", "city": "Hyderabad", "specialization": "Cloud Computing", "joiningDate": "2026-08-03", "status": "Active" },
+    { "internId": "INT011", "name": "Harsh Gupta", "email": "harsh.gupta@example.com", "mobile": "9810101234", "gender": "Male", "city": "Delhi", "specialization": "Testing", "joiningDate": "2026-08-10", "status": "Inactive" },
+    { "internId": "INT012", "name": "Pooja Desai", "email": "pooja.desai@example.com", "mobile": "9904112345", "gender": "Female", "city": "Surat", "specialization": "Full Stack Node.js", "joiningDate": "2026-08-10", "status": "Active" },
+    { "internId": "INT013", "name": "Arjun Kulkarni", "email": "arjun.kulkarni@example.com", "mobile": "9763123456", "gender": "Male", "city": "Pune", "specialization": "Data Engineering", "joiningDate": "2026-08-17", "status": "Active" },
+    { "internId": "INT014", "name": "Nisha Choudhary", "email": "nisha.choudhary@example.com", "mobile": "9588134567", "gender": "Female", "city": "Banswara", "specialization": "Full Stack .NET", "joiningDate": "2026-08-17", "status": "Completed" },
+    { "internId": "INT015", "name": "Imran Khan", "email": "imran.khan@example.com", "mobile": "9893145678", "gender": "Male", "city": "Bhopal", "specialization": "Testing", "joiningDate": "2026-09-01", "status": "Active" }]
+}

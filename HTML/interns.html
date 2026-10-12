@@ -83,6 +83,23 @@
 
         <section class="card">
             <h2>All Interns</h2>
+            <div class="toolbar">
+                <input type="search" id="search-input" placeholder="Search name, ID, email, specialization, city...">
+
+                <select id="filter-specialization" aria-label="Filter by specialization"></select>
+
+                <select id="filter-status" aria-label="Filter by status"></select>
+
+                <select id="sort-select" aria-label="Sort interns">
+                    <option value="name-asc">Name (A-Z)</option>
+                    <option value="name-desc">Name (Z-A)</option>
+                    <option value="joining-newest">Joining date (newest)</option>
+                    <option value="joining-oldest">Joining date (oldest)</option>
+                </select>
+
+                <button type="button" id="reset-filters" class="btn">Reset</button>
+            </div>
+            <p id="result-count" class="result-count"></p>
             <div class="table-wrap">
                 <table>
                     <thead>

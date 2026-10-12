@@ -3,7 +3,8 @@ export const KEYS ={
     ATTENDANCE: "itpms_attendance",
     ASSESSMENTS: "itpms_assessments",
     TASKS: "itpms_tasks",
-    THEME: "itpms_theme"
+    THEME: "itpms_theme",
+    SEEDED: "itpms_seeded"
 };
 
 export function load(key, fallback = []) {

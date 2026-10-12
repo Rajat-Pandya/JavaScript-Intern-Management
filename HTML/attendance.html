@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance | Intern Management</title>
+    <link rel="stylesheet" href="/CSS/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="interns.html">Interns</a>
+        <a href="attendance.html" class="active">Attendance</a>
+        <a href="assessment.html">Assessment</a>
+        <a href="tasks.html">Tasks</a>
+    </nav>
+
+    <main class="container">
+        <section class="card">
+            <h2>Record Attendance</h2>
+            <form id="attendance-form" novalidate>
+                <div class="form-grid">
+                    <label>Intern
+                        <select name="internId" id="attendance-intern"></select>
+                        <span class="error" data-error-for="internId"></span>
+                    </label>
+
+                    <label>Date
+                        <input name="date" type="date">
+                        <span class="error" data-error-for="date"></span>
+                    </label>
+
+                    <label>Status
+                        <select name="status" id="attendance-status"></select>
+                        <span class="error" data-error-for="status"></span>
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save Attendance</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>Attendance Summary</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Working Days</th>
+                            <th>Present</th>
+                            <th>Half Day</th>
+                            <th>Absent</th>
+                            <th>Leave</th>
+                            <th>Attendance %</th>
+                            <th>Category</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendance-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <dialog id="history-dialog">
+        <div id="history-content"></div>
+        <form method="dialog"><button class="btn">Close</button></form>
+    </dialog>
+
+    <div id="toast-container"></div>
+    <script type="module" src="/JS/attendance.js"></script>
+</body>
+
+</html>

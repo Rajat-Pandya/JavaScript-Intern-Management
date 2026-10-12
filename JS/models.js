@@ -4,6 +4,12 @@ export const SPECIALIZATIONS = [
 ];
 
 export const STATUSES = ['Active', 'Inactive', 'Completed'];
+export const ATTENDANCE_STATUSES = ['Present', 'Absent', 'Half Day', 'Leave'];
+
+export const SUBJECTS = [
+    'HTML & CSS', 'JavaScript', 'SQL & Databases', 'Core Java', 'C# & .NET',
+    'Node.js', 'Python', 'Cloud Fundamentals', 'Software Testing', 'Data Analysis',
+];
 
 export class Intern {
     constructor({ internId, name, email, mobile, gender,
