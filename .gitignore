@@ -1,0 +1,14 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Dependencies & Build Artefacts
+node_modules/
+package-lock.json
+
+# Logs
+*.log
+
+# Editor & IDE Directories
+.vscode/
+.idea/
