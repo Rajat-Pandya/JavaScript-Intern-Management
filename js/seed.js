@@ -2,7 +2,7 @@ import { load, save, KEYS } from "./storage.js";
 import { todayISO } from "./utils.js";
 import { SUBJECTS, TASK_PRIORITIES } from "./models.js";
 
-const SAMPLE_DATA_URL = "/DATA/sample-data.json";
+const SAMPLE_DATA_URL = "data/sample-data.json";
 const SAMPLE_RATES = [
   96, 92, 88, 70, 55, 93, 80, 62, 97, 85, 50, 78, 91, 66, 89,
 ];

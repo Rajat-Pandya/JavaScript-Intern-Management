@@ -69,8 +69,12 @@ const hasId = (record) =>
 const RULES = {
   attendance: {
     validator: validateAttendance,
-    keyOf: (r) => `${r.internId}|${r.date}`,
-    pick: ({ internId, date, status }) => ({ internId, date, status }),
+    keyOf: (r) => `${String(r.internId ?? "").trim().toUpperCase()}|${r.date}`,
+    pick: ({ internId, date, status }) => ({
+      internId: String(internId).trim().toUpperCase(),
+      date,
+      status,
+    }),
   },
   assessments: {
     validator: validateAssessment,
@@ -78,7 +82,7 @@ const RULES = {
     keyOf: (r) => r.id.trim(),
     pick: ({ id, internId, subject, marks, totalMarks, date }) => ({
       id: id.trim(),
-      internId,
+      internId: String(internId).trim().toUpperCase(),
       subject,
       marks: Number(marks),
       totalMarks: Number(totalMarks),
@@ -100,7 +104,7 @@ const RULES = {
     }) => ({
       id: id.trim(),
       title: title.trim(),
-      internId,
+      internId: String(internId).trim().toUpperCase(),
       assignedDate,
       dueDate,
       priority,

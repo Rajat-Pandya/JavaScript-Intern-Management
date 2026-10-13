@@ -1,7 +1,7 @@
 import { load, KEYS } from "./storage.js";
 import { Intern } from "./models.js";
 import { buildPerformanceRows, getTopPerformers } from "./calculations.js";
-import { escapeHTML } from "./utils.js";
+import { escapeHTML, overallBadge } from "./utils.js";
 import { seedIfNeeded } from "./seed.js";
 
 const CATEGORIES = [
@@ -21,19 +21,6 @@ const categoryFilter = document.getElementById("filter-category");
 const sortSelect = document.getElementById("sort-report");
 const reportBody = document.getElementById("report-table-body");
 const reportCount = document.getElementById("report-count");
-
-const CATEGORY_CLASS = {
-  Outstanding: "perf-outstanding",
-  Excellent: "perf-excellent",
-  Good: "perf-good",
-  Average: "perf-average",
-  "Needs Improvement": "perf-needs",
-  "No Data": "perf-nodata",
-};
-
-function categoryBadge(category) {
-  return `<span class="badge ${CATEGORY_CLASS[category]}">${category}</span>`;
-}
 
 function showPercent(hasData, value) {
   return hasData ? `${value.toFixed(1)}%` : "—";
@@ -56,7 +43,7 @@ function renderTopPerformers() {
           <strong>${escapeHTML(row.intern.name)}</strong>
           <small>${escapeHTML(row.intern.specialization)} · ${escapeHTML(row.intern.internId)}</small>
         </div>
-        ${categoryBadge(row.performance.category)}
+        ${overallBadge(row.performance.category)}
         <span class="top-score">${row.performance.score.toFixed(1)}%</span>
       </li>`,
     )
@@ -99,7 +86,7 @@ function renderReport() {
           <td>${showPercent(assessment.count > 0, assessment.percentage)}</td>
           <td>${showPercent(tasks.total > 0, tasks.completionPercentage)}</td>
           <td><strong>${hasAny ? performance.score.toFixed(1) + "%" : "—"}</strong></td>
-          <td>${categoryBadge(performance.category)}</td>
+          <td>${overallBadge(performance.category)}</td>
           <td>${basedOn}</td>
         </tr>`;
     })

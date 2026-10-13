@@ -11,7 +11,7 @@ const NAME_REGEX = /^[A-Za-z][A-Za-z .'-]{1,49}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const MOBILE_REGEX = /^[6-9]\d{9}$/;
 
-export function validateInternId(data, existingInterns = [], currentId = null) {
+export function validateIntern(data, existingInterns = [], currentId = null) {
   const errors = {};
   const {
     internId,
@@ -65,12 +65,15 @@ export function validateInternId(data, existingInterns = [], currentId = null) {
   return { isValid: Object.keys(errors).length === 0, errors };
 }
 
+export const validateInternId = validateIntern;
+
 export function validateAttendance(data, interns = []) {
   const errors = {};
   const { internId, date, status } = data;
-  const intern = interns.find((i) => i.internId === internId);
+  const cleanInternId = internId !== undefined && internId !== null ? String(internId).trim().toUpperCase() : "";
+  const intern = interns.find((i) => i.internId === cleanInternId);
 
-  if (!internId) errors.internId = "Please select an intern.";
+  if (!cleanInternId) errors.internId = "Please select an intern.";
   else if (!intern) errors.internId = "Selected intern does not exist.";
 
   if (!date) {
@@ -109,18 +112,19 @@ export function showErrors(form, errors) {
 }
 
 export function validateAssessment(data, interns = []) {
-  const errors = [];
+  const errors = {};
   const { internId, subject, marks, totalMarks, date } = data;
-  const intern = interns.find((i) => i.internId === internId);
+  const cleanInternId = internId !== undefined && internId !== null ? String(internId).trim().toUpperCase() : "";
+  const intern = interns.find((i) => i.internId === cleanInternId);
 
   const isBlank = (value) => String(value ?? "").trim() === "";
   const total = Number(totalMarks);
   const obtained = Number(marks);
 
-  if (!internId) errors.internId = "Please select an intern";
+  if (!cleanInternId) errors.internId = "Please select an intern";
   else if (!intern) errors.internId = "Selected intern does not exist";
 
-  if (!subject) errors.subject = "Plese select a subject";
+  if (!subject) errors.subject = "Please select a subject";
   else if (!SUBJECTS.includes(subject)) errors.subject = "Invalid subject";
 
   if (isBlank(totalMarks)) {
@@ -155,7 +159,8 @@ export function validateAssessment(data, interns = []) {
 export function validateTask(data, interns = []) {
   const errors = {};
   const { title, internId, assignedDate, dueDate, priority, status } = data;
-  const intern = interns.find((i) => i.internId === internId);
+  const cleanInternId = internId !== undefined && internId !== null ? String(internId).trim().toUpperCase() : "";
+  const intern = interns.find((i) => i.internId === cleanInternId);
   const isValidDate = (value) =>
     Boolean(value) && !Number.isNaN(new Date(value).getTime());
 
@@ -164,7 +169,7 @@ export function validateTask(data, interns = []) {
   else if (cleanTitle.length < 3 || cleanTitle.length > 100)
     errors.title = "Title must be 3-100 characters.";
 
-  if (!internId) errors.internId = "Please select an intern.";
+  if (!cleanInternId) errors.internId = "Please select an intern.";
   else if (!intern) errors.internId = "Selected intern does not exist.";
 
   if (!assignedDate) {

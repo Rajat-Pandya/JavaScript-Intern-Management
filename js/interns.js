@@ -5,7 +5,7 @@ import {
   STATUSES,
   ATTENDANCE_CATEGORIES,
 } from "./models.js";
-import { validateInternId, clearErrors, showErrors } from "./validation.js";
+import { validateIntern, clearErrors, showErrors } from "./validation.js";
 import { escapeHTML, formatDate, showToast, debounce } from "./utils.js";
 import { seedIfNeeded } from "./seed.js";
 import {
@@ -48,9 +48,12 @@ const sortSelect = document.getElementById("sort-select");
 const resetBtn = document.getElementById("reset-filters");
 const resultCount = document.getElementById("result-count");
 
-function persist() {
+function persist(previousInterns) {
   const ok = save(KEYS.INTERNS, interns);
-  if (!ok) showToast("Could not save data. Storage may be full.", "error");
+  if (!ok) {
+    if (previousInterns) interns = previousInterns;
+    showToast("Could not save data. Storage may be full.", "error");
+  }
   return ok;
 }
 
@@ -181,7 +184,7 @@ function handleSubmit(event) {
   clearErrors(form);
 
   const data = Object.fromEntries(new FormData(form));
-  const { isValid, errors } = validateInternId(data, interns, editingId);
+  const { isValid, errors } = validateIntern(data, interns, editingId);
 
   if (!isValid) {
     showErrors(form, errors);
@@ -190,6 +193,8 @@ function handleSubmit(event) {
   }
 
   const intern = new Intern(data);
+
+  const previousInterns = [...interns];
 
   if (editingId) {
     const index = interns.findIndex((i) => i.internId === editingId);
@@ -200,7 +205,7 @@ function handleSubmit(event) {
     showToast("Intern added successfully.");
   }
 
-  if (persist()) {
+  if (persist(previousInterns)) {
     renderTable();
     resetForm();
   }
@@ -250,18 +255,28 @@ function deleteIntern(id) {
   );
   if (!confirmed) return;
 
+  const previousInterns = [...interns];
   interns = interns.filter((i) => i.internId !== id);
-  if (persist()) {
+
+  if (persist(previousInterns)) {
     renderTable();
     if (editingId === id) resetForm();
     showToast("Intern deleted.");
+
+    // Cascade delete across attendance, assessments, and tasks
+    const remainingAttendance = load(KEYS.ATTENDANCE).filter(
+      (r) => r.internId !== id,
+    );
+    save(KEYS.ATTENDANCE, remainingAttendance);
+
+    const remainingAssessments = load(KEYS.ASSESSMENTS).filter(
+      (r) => r.internId !== id,
+    );
+    save(KEYS.ASSESSMENTS, remainingAssessments);
+
+    const remainingTasks = load(KEYS.TASKS).filter((t) => t.internId !== id);
+    save(KEYS.TASKS, remainingTasks);
   }
-  const remainingAttendance = load(KEYS.ATTENDANCE).filter(
-    (r) => r.internId !== id,
-  );
-  save(KEYS.ATTENDANCE, remainingAttendance);
-  const remainingTasks = load(KEYS.TASKS).filter((t) => t.internId !== id);
-  save(KEYS.TASKS, remainingTasks);
 }
 
 tableBody.addEventListener("click", (event) => {

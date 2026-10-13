@@ -133,26 +133,6 @@ function renderDashboard() {
   const stats = calculateDashboardStats(rows);
 
   renderKpis(stats);
-  renderBars(/* attendance bars: exactly as before */);
-  renderBars(/* specialization bars: exactly as before */);
-  renderTopPerformers(rows);
-}
-async function init() {
-  loadQuote();
-  await seedIfNeeded();
-  renderDashboard();
-  initDataTools({ onDataChanged: renderDashboard });
-
-  const interns = load(KEYS.INTERNS).map(Intern.fromJSON);
-  const rows = buildPerformanceRows(
-    interns,
-    load(KEYS.ATTENDANCE),
-    load(KEYS.ASSESSMENTS),
-    load(KEYS.TASKS),
-  );
-  const stats = calculateDashboardStats(rows);
-
-  renderKpis(stats);
 
   renderBars(
     attendanceBox,
@@ -171,6 +151,13 @@ async function init() {
   );
 
   renderTopPerformers(rows);
+}
+
+async function init() {
+  loadQuote();
+  await seedIfNeeded();
+  renderDashboard();
+  initDataTools({ onDataChanged: renderDashboard });
 }
 
 init();

@@ -36,7 +36,7 @@ export function calculateAttendanceStats(records) {
 
 export function calculatePercentage(marks, totalMarks) {
   if (!totalMarks || totalMarks <= 0) return 0;
-  return Math.round(((marks / totalMarks) * 10000) / 100);
+  return Math.round((marks / totalMarks) * 10000) / 100;
 }
 
 export function getGrade(percentage) {
@@ -50,14 +50,14 @@ export function getGrade(percentage) {
 
 export function calculateAssessmentSummary(records) {
   if (records.length === 0) return { count: 0, percentage: 0, grade: "N/A" };
-  const { obtained, possibe } = records.reduce(
+  const { obtained, possible } = records.reduce(
     (totals, { marks, totalMarks }) => ({
       obtained: totals.obtained + marks,
-      possibe: totals.possibe + totalMarks,
+      possible: totals.possible + totalMarks,
     }),
-    { obtained: 0, possibe: 0 },
+    { obtained: 0, possible: 0 },
   );
-  const percentage = calculatePercentage(obtained, possibe);
+  const percentage = calculatePercentage(obtained, possible);
   return { count: records.length, percentage, grade: getGrade(percentage) };
 }
 
