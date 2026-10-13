@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=dashboard.html">
+    <script>
+        (function () {
+            var theme = null;
+            try {
+                var saved = JSON.parse(localStorage.getItem('itpms_theme'));
+                if (saved === 'dark' || saved === 'light') theme = saved;       // 1. saved choice
+            } catch (error) { /* storage unavailable or corrupted: fall through */ }
+
+            if (!theme) {                                                      // 2. OS preference
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                theme = prefersDark ? 'dark' : 'light';
+            }
+            document.documentElement.dataset.theme = theme;
+        })();
+    </script>
+    <title>Intern Management System</title>
+    <link rel="stylesheet" href="/CSS/responsive.css">
+</head>
+
+<body>
+    <p>Redirecting to the <a href="dashboard.html">dashboard</a>…</p>
+</body>
+
+</html>

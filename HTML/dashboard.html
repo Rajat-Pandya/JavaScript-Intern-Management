@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function () {
+            var theme = null;
+            try {
+                var saved = JSON.parse(localStorage.getItem('itpms_theme'));
+                if (saved === 'dark' || saved === 'light') theme = saved;       // 1. saved choice
+            } catch (error) { /* storage unavailable or corrupted: fall through */ }
+
+            if (!theme) {                                                      // 2. OS preference
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                theme = prefersDark ? 'dark' : 'light';
+            }
+            document.documentElement.dataset.theme = theme;
+        })();
+    </script>
+    <title>Dashboard | Intern Management</title>
+    <link rel="stylesheet" href="/CSS/style.css">
+    <link rel="stylesheet" href="/CSS/responsive.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="dashboard.html" class="active">Dashboard</a>
+        <a href="interns.html">Interns</a>
+        <a href="attendance.html">Attendance</a>
+        <a href="assessment.html">Assessment</a>
+        <a href="tasks.html">Tasks</a>
+        <a href="performance.html">Performance</a>
+    </nav>
+
+    <main class="container">
+        <h1 class="page-title">Dashboard</h1>
+
+        <div id="kpi-grid" class="stats-grid"></div>
+
+        <div class="two-col">
+            <section class="card">
+                <h2>Attendance Categories</h2>
+                <div id="attendance-breakdown"></div>
+            </section>
+
+            <section class="card">
+                <h2>Interns by Specialization</h2>
+                <div id="specialization-breakdown"></div>
+            </section>
+        </div>
+
+        <section class="card">
+            <h2>Thought of the Day</h2>
+            <div id="quote-box" aria-live="polite"></div>
+            <button type="button" id="quote-refresh" class="btn">New quote</button>
+        </section>
+
+        <section class="card">
+            <h2>Top 5 Performers</h2>
+            <ol id="dashboard-top" class="top-list"></ol>
+            <p><a href="performance.html">View the full performance report →</a></p>
+        </section>
+
+        <section class="card">
+            <h2>Data Management</h2>
+
+            <div class="two-col">
+                <div>
+                    <h3>Export</h3>
+                    <div class="check-list">
+                        <label class="inline-check"><input type="checkbox" name="export-set" value="interns" checked>
+                            Interns</label>
+                        <label class="inline-check"><input type="checkbox" name="export-set" value="attendance" checked>
+                            Attendance</label>
+                        <label class="inline-check"><input type="checkbox" name="export-set" value="assessments"
+                                checked> Assessments</label>
+                        <label class="inline-check"><input type="checkbox" name="export-set" value="tasks" checked>
+                            Tasks</label>
+                    </div>
+                    <button type="button" id="export-btn" class="btn btn-primary">Download JSON</button>
+                </div>
+
+                <div>
+                    <h3>Import</h3>
+                    <input type="file" id="import-file" accept=".json,application/json">
+                    <div class="check-list">
+                        <label class="inline-check"><input type="radio" name="import-mode" value="merge" checked> Merge
+                            (keep existing, add new)</label>
+                        <label class="inline-check"><input type="radio" name="import-mode" value="replace"> Replace
+                            (overwrite)</label>
+                    </div>
+                    <button type="button" id="import-btn" class="btn">Import</button>
+                    <div id="import-report" class="import-report" aria-live="polite"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="toast-container"></div>
+    <script type="module" src="/JS/dashboard.js"></script>
+    <script type="module" src="/JS/app.js"></script>
+
+</body>
+
+</html>

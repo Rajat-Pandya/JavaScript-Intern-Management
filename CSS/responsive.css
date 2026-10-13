@@ -1,0 +1,39 @@
+/* responsive.css — loaded AFTER style.css so these rules win on small screens. */
+
+/* Let the two-column cards shrink below 320px instead of overflowing */
+.two-col { grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); }
+
+@media (max-width: 900px) {
+  .container { padding: 0 0.75rem; }
+}
+
+@media (max-width: 700px) {
+  /* Navbar wraps; clock + theme button get their own full-width row */
+  .navbar { flex-wrap: wrap; gap: 0.4rem 1rem; padding: 0.7rem 1rem; }
+  .nav-tools { margin-left: 0; width: 100%; justify-content: space-between; }
+  #clock { min-width: 0; text-align: left; }
+
+  /* Forms and toolbars become single-column, full-width */
+  .form-grid { grid-template-columns: 1fr; }
+  .toolbar > * { flex: 1 1 100%; }
+  .form-actions .btn { flex: 1; }
+  input, select { font-size: 1rem; }       /* 16px stops iOS zooming into focused fields */
+
+  /* Denser tables (they scroll sideways inside .table-wrap) */
+  th, td { padding: 0.5rem 0.4rem; font-size: 0.85rem; }
+
+  /* Dashboard pieces */
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .bar-row { grid-template-columns: 6.5rem 1fr 2rem; }
+  .top-item { flex-wrap: wrap; }
+  dialog { width: 95%; }
+}
+
+@media (max-width: 420px) {
+  .stat-value { font-size: 1.4rem; }
+}
+
+/* Respect users who ask their system to reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation-duration: 3s; }
+}

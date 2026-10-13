@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function () {
+            var theme = null;
+            try {
+                var saved = JSON.parse(localStorage.getItem('itpms_theme'));
+                if (saved === 'dark' || saved === 'light') theme = saved;       // 1. saved choice
+            } catch (error) { /* storage unavailable or corrupted: fall through */ }
+
+            if (!theme) {                                                      // 2. OS preference
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                theme = prefersDark ? 'dark' : 'light';
+            }
+            document.documentElement.dataset.theme = theme;
+        })();
+    </script>
+    <title>Tasks | Intern Management</title>
+    <link rel="stylesheet" href="/CSS/style.css">
+    <link rel="stylesheet" href="/CSS/responsive.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="interns.html">Interns</a>
+        <a href="attendance.html">Attendance</a>
+        <a href="assessment.html">Assessment</a>
+        <a href="tasks.html" class="active">Tasks</a>
+        <a href="performance.html">Performance</a>
+    </nav>
+
+    <main class="container">
+        <div id="task-stats" class="stats-grid"></div>
+
+        <section class="card">
+            <h2 id="form-title">Create Task</h2>
+            <form id="task-form" novalidate>
+                <div class="form-grid">
+                    <label>Title
+                        <input name="title" type="text" maxlength="100">
+                        <span class="error" data-error-for="title"></span>
+                    </label>
+
+                    <label>Intern
+                        <select name="internId" id="task-intern"></select>
+                        <span class="error" data-error-for="internId"></span>
+                    </label>
+
+                    <label>Assigned Date
+                        <input name="assignedDate" type="date">
+                        <span class="error" data-error-for="assignedDate"></span>
+                    </label>
+
+                    <label>Due Date
+                        <input name="dueDate" type="date">
+                        <span class="error" data-error-for="dueDate"></span>
+                    </label>
+
+                    <label>Priority
+                        <select name="priority" id="task-priority"></select>
+                        <span class="error" data-error-for="priority"></span>
+                    </label>
+
+                    <label>Status
+                        <select name="status" id="task-status"></select>
+                        <span class="error" data-error-for="status"></span>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" id="submit-btn" class="btn btn-primary">Create Task</button>
+                    <button type="button" id="cancel-btn" class="btn" hidden>Cancel Edit</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>All Tasks</h2>
+            <div class="toolbar">
+                <select id="filter-status" aria-label="Filter by status"></select>
+                <select id="filter-priority" aria-label="Filter by priority"></select>
+                <label class="inline-check">
+                    <input type="checkbox" id="filter-overdue"> Overdue only
+                </label>
+                <button type="button" id="reset-filters" class="btn">Reset</button>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Intern</th>
+                            <th>Assigned</th>
+                            <th>Due</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="task-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <div id="toast-container"></div>
+    <script type="module" src="/JS/tasks.js"></script>
+    <script type="module" src="/JS/app.js"></script>
+
+</body>
+
+</html>

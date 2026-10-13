@@ -4,8 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function () {
+            var theme = null;
+            try {
+                var saved = JSON.parse(localStorage.getItem('itpms_theme'));
+                if (saved === 'dark' || saved === 'light') theme = saved;       // 1. saved choice
+            } catch (error) { /* storage unavailable or corrupted: fall through */ }
+
+            if (!theme) {                                                      // 2. OS preference
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                theme = prefersDark ? 'dark' : 'light';
+            }
+            document.documentElement.dataset.theme = theme;
+        })();
+    </script>
     <title>Attendance | Intern Management</title>
     <link rel="stylesheet" href="/CSS/style.css">
+    <link rel="stylesheet" href="/CSS/responsive.css">
 </head>
 
 <body>
@@ -15,6 +31,7 @@
         <a href="attendance.html" class="active">Attendance</a>
         <a href="assessment.html">Assessment</a>
         <a href="tasks.html">Tasks</a>
+        <a href="performance.html">Performance</a>
     </nav>
 
     <main class="container">
@@ -74,6 +91,7 @@
 
     <div id="toast-container"></div>
     <script type="module" src="/JS/attendance.js"></script>
+    <script type="module" src="/JS/app.js"></script>
 </body>
 
 </html>

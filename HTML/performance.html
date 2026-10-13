@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function () {
+            var theme = null;
+            try {
+                var saved = JSON.parse(localStorage.getItem('itpms_theme'));
+                if (saved === 'dark' || saved === 'light') theme = saved;       // 1. saved choice
+            } catch (error) { /* storage unavailable or corrupted: fall through */ }
+
+            if (!theme) {                                                      // 2. OS preference
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                theme = prefersDark ? 'dark' : 'light';
+            }
+            document.documentElement.dataset.theme = theme;
+        })();
+    </script>
+    <title>Performance | Intern Management</title>
+    <link rel="stylesheet" href="/CSS/style.css">
+    <link rel="stylesheet" href="/CSS/responsive.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="interns.html">Interns</a>
+        <a href="attendance.html">Attendance</a>
+        <a href="assessment.html">Assessment</a>
+        <a href="tasks.html">Tasks</a>
+        <a href="performance.html" class="active">Performance</a>
+    </nav>
+
+    <main class="container">
+        <section class="card">
+            <h2>Top 5 Performers</h2>
+            <p class="hint">Ranked by overall score. Only interns with attendance, assessment and task data are
+                included.</p>
+            <ol id="top-performers" class="top-list"></ol>
+        </section>
+
+        <section class="card">
+            <h2>Performance Report</h2>
+            <p class="hint">Overall = Attendance × 30% + Assessment × 50% + Task Completion × 20%.</p>
+
+            <div class="toolbar">
+                <select id="filter-category" aria-label="Filter by performance category"></select>
+                <select id="sort-report" aria-label="Sort report">
+                    <option value="score-desc">Overall (high to low)</option>
+                    <option value="score-asc">Overall (low to high)</option>
+                    <option value="name-asc">Name (A-Z)</option>
+                </select>
+            </div>
+            <p id="report-count" class="result-count"></p>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Attendance</th>
+                            <th>Assessment</th>
+                            <th>Tasks</th>
+                            <th>Overall</th>
+                            <th>Category</th>
+                            <th>Based on</th>
+                        </tr>
+                    </thead>
+                    <tbody id="report-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <div id="toast-container"></div>
+    <script type="module" src="/JS/performance.js"></script>
+    <script type="module" src="/JS/app.js"></script>
+
+</body>
+
+</html>
